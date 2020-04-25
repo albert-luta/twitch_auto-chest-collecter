@@ -2,12 +2,11 @@
 
 log('Script injected');
 
-window.addEventListener('load', () => {
+window.addEventListener('load', async () => {
 	log('Window loaded');
 
-	const chestContainer = document.querySelector(
-		'[data-test-selector="community-points-summary"]'
-	);
+	log('Starting to look for the chest container');
+	const chestContainer = await getChestContainer(10, 1500);
 
 	if (chestContainer) {
 		log('Chest container found');
@@ -62,6 +61,25 @@ setTimeout(() => {
 }, 20 * 60 * 1000);
 log('Page reloading after x mins set');
 
+async function getChestContainer(maxTries, timeForEachRepetition) {
+	while (maxTries) {
+		const temp = document.querySelector('[data-test-selector="community-points-summary"]');
+
+		if (temp) return temp;
+
+		log(`Didn't find it this time...${maxTries}`);
+		maxTries--;
+		await wait(timeForEachRepetition);
+	}
+	return null;
+}
+
 function log(string, data = '') {
 	console.log(`(${new Date().toUTCString()}) Twitch Auto-Chest-Collecter: ${string}`, data);
+}
+
+function wait(ms) {
+	return new Promise((res) => {
+		setTimeout(res, ms);
+	});
 }
