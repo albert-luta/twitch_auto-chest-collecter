@@ -1,6 +1,6 @@
 {
 	"name": "Twitch Auto-Chest Collecter",
-	"version": "0.1",
+	"version": "0.2",
 	"description": "Auto collects the chests from twitch streamer's chat",
 	"manifest_version": 2,
 	"icons": {
